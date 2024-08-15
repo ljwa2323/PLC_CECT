@@ -23,7 +23,7 @@ import random
 Load the patient data from an Excel file. This dataset includes patient IDs, cancer stages, types, and file paths for CT images and masks.
 
 ```{python}
-patient_data = pd.read_excel("./patient_data.xlsx")
+patient_data = pd.read_csv("./patient_data.csv",header=0)
 ```
 
 ### Step 3: Select a Patient Record
