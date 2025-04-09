@@ -40,11 +40,18 @@ Using the paths provided in the dataset, load the CT images and masks using the 
 
 ```{python}
 root_folder_path = "D:/liver_db_project/"
-liver_image = nib.load(os.path.join(root_folder_path, selected_row['CT File']))
-liver_image_data = liver_image.get_fdata()
-# Adjust dimensions if necessary
-if len(liver_image_data.shape) == 4:
-    liver_image_data = liver_image_data[..., 0]
+# 读取图像和mask
+liver_image = sitk.ReadImage(os.path.join(root_folder_path, selected_row['CT File']), sitk.sitkInt16)
+liver_image_array = sitk.GetArrayFromImage(liver_image)
+
+liver_mask = sitk.ReadImage(os.path.join(root_folder_path, selected_row['Liver Mask File']), sitk.sitkUInt8)
+liver_mask_array = sitk.GetArrayFromImage(liver_mask)
+
+if pd.notna(selected_row['Mask File']):
+    mask = sitk.ReadImage(os.path.join(root_folder_path, selected_row['Mask File']), sitk.sitkUInt8)
+    mask_array = sitk.GetArrayFromImage(mask)
+else:
+    mask_array = None  # 如果没有病灶mask文件
 ```
 
 ### Step 5: Visualize the Data
